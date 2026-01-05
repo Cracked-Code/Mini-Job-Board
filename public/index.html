@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <title>Job Tracker 2000</title>
+</head>
+<body>
+    <h1>Job Portal</h1>
+    <main>
+        <h2 id = "intro">Welcome</h2>
+        <div class="logininfonames">
+        <p>Username</p>
+        <p>Password</p>
+        </div>
+
+        <div class = "LoginInfobuttons">
+        <input type="text" id="Username" required placeholder="Username"> 
+        <input type="text" id="Password" required placeholder="Password">
+        </div>
+
+        <div class ="buttons" >
+        <button  onclick="register()">Register</button>
+        <button  onclick="login()">Login</button>
+        <button onclick="jobBoard()">Add New Job</button>
+        </div>
+        <img class="imgclass"  src = "./stonk.jpg"></img>
+    </main>
+        <script>
+            async function register() {
+                const password = document.getElementById('Password').value;
+                const username = document.getElementById('Username').value;
+                const info = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body : JSON.stringify({username :username , password : password})
+                })
+                const data = await info.json();
+                if (info.ok) {
+                    console.log(`Succefull account creation ${data} `)
+                    document.getElementById('intro').innerHTML = 'Succefull Registration, Login in'
+                } else {
+                    alert('Registeration Failed')
+                }
+            }    
+
+            async function login() {
+                const password = document.getElementById('Password').value;
+                const username = document.getElementById('Username').value;
+                const token = localStorage.getItem('token');
+                const logininfo = await fetch ('/auth/login', {
+                    method: 'POST' ,
+                    headers: {'Content-Type': 'application/json' },
+                    body: JSON.stringify({username: username, password:password})
+                })
+                const logindata = await logininfo.json();
+                if (logininfo.ok) {
+                    localStorage.setItem('token', logindata.token);
+                    console.log(`Succesfull login, ${logindata}`)
+                    window.location.href='./addjob.html'
+                }else {
+                    alert('Login failed!' + logindata.statusText);
+                }  
+            }
+        </script>
+        <script>
+            async function jobBoard() {
+                const token = localStorage.getItem('token');
+                if (token != null) {
+                    window.location.href='./addjob.html'
+                } else {
+                    alert('Login In or Make a account!')
+                }
+            }
+        </script>
+</body>
+<footer>
+
+</footer>
+</html>

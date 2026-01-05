@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Job Tracker 2000</title>
+    <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <nav>
+        <a href="./index.html"><i class="fa-solid fa-house"></i></a>
+    </nav>
+    <h1>Job Portal</h1>
+</head>
+<body>
+    <main>
+        <div class="buttons">
+        </div>
+        <div id="addjob" style="display: block;" class="buttons" >
+            <h3>Add new job</h3>
+            <input type="text" id="newjobtitle" required placeholder="Job Title">
+            <input type="text" id="newjobdesc" required placeholder="Job Desc">
+            <input type="text" id="newjobdat" required placeholder="Job Date placeholder">
+            <button onclick="addJob()"> Submit</button>
+            <button onclick="loadJobs()"><i class="fa-solid fa-arrows-rotate"></i></button>
+        </div>
+
+        <div id="jobsList" class = "maindiv">
+            <table id="jobsTable">
+                <thead>
+                    <tr>
+                        <th>Job Name</th>
+                        <th>Job Description</th>
+                        <th>Date Applied</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="jobsTableBody" >
+                <!-- Jobs will be inserted here by JavaScript -->
+                    <tr style="padding-top: 1rem;">
+                        <td colspan="4" style="text-align: center;">No jobs loaded yet. Click "Get Jobs"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </main>
+        <script>
+            async function loadJobs() {
+                // Fetch from backend
+                const response = await fetch('/jobs', {
+                    method : 'GET',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                const jobs = await response.json();
+                if (response.ok) {console.log('ALL Jobs Loaded IN!')
+                    displayJobs(jobs)
+                }
+                else {alert("ERROR")}
+            }
+            function displayJobs(jobs) {
+                const tableBody = document.getElementById('jobsTableBody');
+            
+                // Clear existing rows
+                tableBody.innerHTML = '';                                
+                // Create a row for each job
+                jobs.forEach(job => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${job.job_title}</td>
+                        <td>${job.job_description}</td>
+                        <td>${new Date(job.date_applied).toLocaleDateString()}</td>
+                        <td>${job.accepted ? '✅ Accepted' : '⏳ Pending'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+        }
+        </script>
+        <script>
+            async function addJob() {
+                const newjobtittleadded= document.getElementById('newjobtitle').value
+                const newjobdescadded = document.getElementById('newjobdesc').value
+                const addjob = await fetch('/jobs', {
+                    method : 'POST',
+                    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')},
+                    body: JSON.stringify({job_title:newjobtittleadded, job_description:newjobdescadded, date_applied:Date.now()})
+                })
+                const check = await addjob.json()
+                if (addjob.ok) {
+                    console.log("Added job")
+                    loadJobs()
+                } else {console.log("Nope")}
+            }
+        </script>
+
+
+</body>
+</html>

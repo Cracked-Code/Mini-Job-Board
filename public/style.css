@@ -1,0 +1,80 @@
+* {
+    font-family:'Orbitron', sans-serif ;
+    box-sizing: border-box;
+    margin: 0rem;
+    padding: 0rem; 
+}
+
+body h1,
+body h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+body h2 {
+    padding-top: 2rem;
+}
+
+body {
+    background-color: rgba(166, 194, 236, 0.801);
+    align-items: center;
+    justify-self: center;
+}
+
+.logininfonames {
+    display: flex;
+    padding-top: 2rem;
+    
+}
+
+.logininfonames p {
+    flex : 1;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.LoginInfobuttons input,
+.LoginInfobuttons{
+    text-align: center;
+}
+.LoginInfobuttons {
+
+    padding-top: 0.6rem;
+    padding-bottom: 1rem;
+}
+
+.buttons {
+    gap: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2rem;
+    
+}
+.buttons button {
+    padding: 0.3rem .3rem;
+    background-color: lightblue;
+    border-radius: 0.9rem;
+    
+    
+}
+
+.maindiv  {
+    display: flex;
+    flex-direction: column;
+    /* border-collapse: collapse; */
+}
+
+.imgclass {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top:4rem ;
+    aspect-ratio: 1;
+}
+
+table, th, td{
+    border: 1px solid black;
+}
