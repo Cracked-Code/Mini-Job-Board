@@ -42,7 +42,7 @@ cd job-tracker-2000
 
 2. **Install dependencies**
 ```bash
-npm install
+npm install express bcryptjs jsonwebtoken helmet  
 ```
 
 3. **Create .env file**
@@ -231,3 +231,4 @@ For questions or feedback, please open an issue or contact me on github
 ---
 
 Made with ❤️ 
+
