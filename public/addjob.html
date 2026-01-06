@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Tracker 2000</title>
     <link rel="stylesheet" href="style.css">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <nav>
         <a href="./index.html"><i class="fa-solid fa-house"></i></a>
     </nav>
@@ -19,9 +22,13 @@
             <h3>Add new job</h3>
             <input type="text" id="newjobtitle" required placeholder="Job Title">
             <input type="text" id="newjobdesc" required placeholder="Job Desc">
-            <input type="text" id="newjobdat" required placeholder="Job Date placeholder">
+            <input type="date" id="newjobdate" required placeholder="Job Date placeholder">
             <button onclick="addJob()"> Submit</button>
+            <!-- <button onclick="loadJobs()"><i class="fa-solid fa-arrows-rotate"></i></button> -->
+        </div>
+        <div class="buttons">
             <button onclick="loadJobs()"><i class="fa-solid fa-arrows-rotate"></i></button>
+            <button onclick="showeditJob()">Edit <i class="fa-solid fa-pen-to-square"></i></button>
         </div>
 
         <div id="jobsList" class = "maindiv">
@@ -32,6 +39,8 @@
                         <th>Job Description</th>
                         <th>Date Applied</th>
                         <th>Status</th>
+                        <th id= "editcol" style="display: none;">Edit</th>
+                        <!-- <td class="test "><button>text</button></td> -->
                     </tr>
                 </thead>
                 <tbody id="jobsTableBody" >
@@ -59,7 +68,6 @@
             }
             function displayJobs(jobs) {
                 const tableBody = document.getElementById('jobsTableBody');
-            
                 // Clear existing rows
                 tableBody.innerHTML = '';                                
                 // Create a row for each job
@@ -69,7 +77,9 @@
                         <td>${job.job_title}</td>
                         <td>${job.job_description}</td>
                         <td>${new Date(job.date_applied).toLocaleDateString()}</td>
-                        <td>${job.accepted ? '✅ Accepted' : '⏳ Pending'}</td>
+                        <td id='status'>${job.accepted ? '✅ Accepted' : '⏳ Pending'}</td>
+                        <td class="edit-cell" style="display: none"> <button onclick="editJob(${job.id}, ${job.accepted})">
+                            Button</button> </td>  
                     `;
                     tableBody.appendChild(row);
                 });
@@ -79,10 +89,11 @@
             async function addJob() {
                 const newjobtittleadded= document.getElementById('newjobtitle').value
                 const newjobdescadded = document.getElementById('newjobdesc').value
+                const newjobdateAdded = document.getElementById('newjobdate').value
                 const addjob = await fetch('/jobs', {
                     method : 'POST',
                     headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')},
-                    body: JSON.stringify({job_title:newjobtittleadded, job_description:newjobdescadded, date_applied:Date.now()})
+                    body: JSON.stringify({job_title:newjobtittleadded, job_description:newjobdescadded, date_applied:newjobdateAdded})
                 })
                 const check = await addjob.json()
                 if (addjob.ok) {
@@ -90,7 +101,43 @@
                     loadJobs()
                 } else {console.log("Nope")}
             }
-        </script>
+
+            function showeditJob() {
+                // Get the header
+                const header = document.getElementById('editcol');  
+                // Get all cells in the edit column
+                const cells = document.querySelectorAll('.edit-cell');
+                // Toggle visibility
+                if (header.style.display === 'none') {
+                    // Show
+                    header.style.display = 'table-cell';
+                    cells.forEach(cell => {
+                        cell.style.display = 'table-cell';
+                    });
+                } else {
+                    // Hide
+                    header.style.display = 'none';
+                    cells.forEach(cell => {
+                        cell.style.display = 'none';
+                    });
+                }
+            }
+            async function editJob(job_id, currentStatus) {
+                if (currentStatus == 0 ) {currentStatus = 1}
+                else {currentStatus = 0}
+                const editdajob = await fetch(`/jobs/${job_id}`, {
+                    method : 'PUT',
+                    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')},
+                    body: JSON.stringify({accepted:currentStatus})
+                    })
+                const check = await editdajob.json()
+                if (editdajob.ok) {
+                    console.log("Edited Job!")
+                    
+                    loadJobs()
+                } else {console.log('Error :()')}
+            }
+        </script>   
 
 
 </body>

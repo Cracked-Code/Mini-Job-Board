@@ -22,12 +22,12 @@ router.post('/', (req,res) => {
 
 // Edit a job application post
 router.put('/:id', (req,res) => {
-    const {completed} = req.body
+    const {accepted} = req.body
     const {id} = req.params
     const {page} = req.query
-    
+    const strToInt = Number(accepted)
     const updateJob = db.prepare('UPDATE jobs SET accepted = ? WHERE id = ?')
-    updateJob.run(completed,id)
+    updateJob.run(strToInt,id)
     res.json({message: "Job edit completed"}) 
 })
 

@@ -50,7 +50,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     
 }
 .buttons button {
@@ -77,4 +77,21 @@ body {
 
 table, th, td{
     border: 1px solid black;
+}
+
+.editcol button{
+    display: flex;
+    max-width: fit-content;
+}
+
+.edit-cell button{
+    background-color: transparent;
+    border-color: red;
+    color: transparent;
+    
+}
+.edit-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
