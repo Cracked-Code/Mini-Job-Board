@@ -86,11 +86,23 @@ table, th, td{
 
 .edit-cell button{
     background-color: transparent;
-    border-color: red;
+    border-color: rgb(0, 255, 42);
     color: transparent;
     
 }
 .edit-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-cell button{
+    background-color: transparent;
+    border-color: red;
+    color: transparent;
+    
+}
+.delete-cell {
     display: flex;
     justify-content: center;
     align-items: center;

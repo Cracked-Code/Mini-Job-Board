@@ -40,7 +40,7 @@
                         <th>Date Applied</th>
                         <th>Status</th>
                         <th id= "editcol" style="display: none;">Edit</th>
-                        <!-- <td class="test "><button>text</button></td> -->
+                        <th id="deletecol" style="display:none;">Delete</th>
                     </tr>
                 </thead>
                 <tbody id="jobsTableBody" >
@@ -79,7 +79,9 @@
                         <td>${new Date(job.date_applied).toLocaleDateString()}</td>
                         <td id='status'>${job.accepted ? '✅ Accepted' : '⏳ Pending'}</td>
                         <td class="edit-cell" style="display: none"> <button onclick="editJob(${job.id}, ${job.accepted})">
-                            Button</button> </td>  
+                            Button</button> </td>
+                        <td class="delete-cell" style="display: none"> <button onclick="deleteJob(${job.id})">
+                            DELETE</button> </td>       
                     `;
                     tableBody.appendChild(row);
                 });
@@ -105,9 +107,12 @@
             function showeditJob() {
                 // Get the header
                 const header = document.getElementById('editcol');  
+                const header2 = document.getElementById('deletecol');  
                 // Get all cells in the edit column
                 const cells = document.querySelectorAll('.edit-cell');
+                const cells2 = document.querySelectorAll('.delete-cell');
                 // Toggle visibility
+                //THis is for the edit coloumn
                 if (header.style.display === 'none') {
                     // Show
                     header.style.display = 'table-cell';
@@ -118,6 +123,20 @@
                     // Hide
                     header.style.display = 'none';
                     cells.forEach(cell => {
+                        cell.style.display = 'none';
+                    });
+                }
+                //This is for the delete coloumn
+                 if (header2.style.display === 'none') {
+                    // Show
+                    header2.style.display = 'table-cell';
+                    cells2.forEach(cell => {
+                        cell.style.display = 'table-cell';
+                    });
+                } else {
+                    // Hide
+                    header2.style.display = 'none';
+                    cells2.forEach(cell => {
                         cell.style.display = 'none';
                     });
                 }
@@ -136,6 +155,22 @@
                     
                     loadJobs()
                 } else {console.log('Error :()')}
+            }
+
+            async function deleteJob(job_id) {
+                const deletethejob = await fetch(`/jobs/${job_id}`,{
+                    method : 'DELETE',
+                    headers: {'Content-Type': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token')},
+                    body :JSON.stringify({id:job_id })
+                })
+                const check= await deletethejob.json()
+                if (deletethejob.ok) {
+                    console.log("Succeful deleted job")
+                    loadJobs()
+                } else {
+                    console.log("Uh oh, couldnt delete job")
+                }
+
             }
         </script>   
 

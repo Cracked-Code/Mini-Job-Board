@@ -1,18 +1,19 @@
 import {DatabaseSync} from  'node:sqlite'
-const db = new DatabaseSync(':memory:')
+const db = new DatabaseSync('./jobs.db')
 
 db.exec('PRAGMA foreign_keys = ON;');
 
 db.exec(`
-    CREATE TABLE users (
+    CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE,
-        password TEXT
+        password TEXT,
+        is_admin BOOLEAN DEFAULT 0
     )
 `)
 
 db.exec(`
-    CREATE TABLE jobs (
+    CREATE TABLE IF NOT EXISTS jobs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         job_title TEXT,
