@@ -183,20 +183,20 @@ Update the Google Fonts import in HTML:
 
 ## 🐛 Known Issues
 
-- Database is in-memory (resets on server restart)
-  - *To fix: Change `:memory:` to `./database.db` in `db.js`*
-- No edit/delete functionality yet (coming soon)
+~~- Database is in-memory (resets on server restart)~~
+  ~~- *To fix: Change `:memory:` to `./database.db` in `db.js`*~~
+~~- No edit/delete functionality yet (coming soon)~~
 - No pagination for large job lists
 
 ## 🚧 Roadmap
 
-- [ ] Edit and delete job functionality
+~~- [ ] Edit and delete job functionality~~
 - [ ] Filter jobs by status (pending/accepted)
 - [ ] Search functionality
 - [ ] Export jobs to CSV
 - [ ] Email notifications
 - [ ] Dark mode
-- [ ] Persistent database (SQLite file)
+~~- [ ] Persistent database (SQLite file)~~
 - [ ] Deploy to cloud (Heroku/Railway)
 
 ## 🤝 Contributing
@@ -231,6 +231,7 @@ For questions or feedback, please open an issue or contact me on github
 ---
 
 ReadMe made with the help of Claude
+
 
 
 
