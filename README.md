@@ -97,7 +97,7 @@ POST /auth/login       - Login user (returns JWT)
 GET    /jobs           - Get all jobs for logged-in user
 POST   /jobs           - Create new job
 PUT    /jobs/:id       - Update job (TODO)
-DELETE /jobs/:id       - Delete job (TODO)
+DELETE /jobs/:id       - Delete job
 ```
 
 ### Debug (Development only)
@@ -105,6 +105,7 @@ DELETE /jobs/:id       - Delete job (TODO)
 GET /debug/users       - View all users
 GET /debug/jobs        - View all jobs
 GET /debug/users/:id   - Get jobs by user ID
+DELETE /debug/deleteall -Deletes all users and jobs that arent a admin
 ```
 
 ## 💾 Database Schema
@@ -114,7 +115,8 @@ GET /debug/users/:id   - Get jobs by user ID
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE,
-    password TEXT
+    password TEXT,
+    is_admin BOOLEAN DEFAULT 0
 )
 ```
 
@@ -231,6 +233,7 @@ For questions or feedback, please open an issue or contact me on github
 ---
 
 ReadMe made with the help of Claude
+
 
 
 
