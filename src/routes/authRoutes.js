@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import db from '../db.js'
 import { hash } from 'crypto'
+import { register } from 'module'
 
 
 const router = express.Router()
@@ -60,4 +61,23 @@ router.post('/login' ,(req,res)  => {
     
 })
 
+router.post(`/adminlog`, (req,res) => {
+    const {username,password} = req.body
+    try {
+        const isadmin = db.prepare(`SELECT * FROM users WHERE is_admin = ? and username = ?`)
+        const user = isadmin.get(1,username)
+        if (!user) {return res.status(404).send({message: "User not found"})}
+
+        const validpassword = bcrypt.compareSync(password, user.password)
+        if (!validpassword) {return res.status(401).send({message:"Inncorrect Password"})}
+        
+        //Successfull login in
+        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET
+        , {expiresIn : '24h'})
+        res.json({token})  
+    } catch (err) {
+        console.log(err.message + ", admin log error")
+        res.sendStatus(503)
+    }
+})    
 export default router 

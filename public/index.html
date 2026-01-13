@@ -20,19 +20,19 @@
 
         <div class = "LoginInfobuttons">
         <input type="text" id="Username" required placeholder="Username"> 
-        <input type="text" id="Password" required placeholder="Password">
+        <input type="password" id="Password" required placeholder="Password">
         </div>
 
         <div class ="buttons" >
         <button  onclick="register()">Register</button>
         <button  onclick="login()">Login</button>
         <button onclick="jobBoard()">Add New Job</button>
-
-        <a href="./adminpage.html">
+        <button onclick="adminlog()"> Admin</button>
+        <!-- <a href="./adminpage.html">
             <button>
                 Admin
             </button>
-        </a>
+        </a> -->
         </div>
         <img class="imgclass"  src = "./stonk.jpg"></img>
     </main>
@@ -68,6 +68,25 @@
                     localStorage.setItem('token', logindata.token);
                     console.log(`Succesfull login, ${logindata}`)
                     window.location.href='./addjob.html'
+                }else {
+                    alert('Login failed!' + logindata.statusText);
+                }  
+            }
+
+            async function adminlog() {
+                const password = document.getElementById('Password').value;
+                const username = document.getElementById('Username').value;
+                const token = localStorage.getItem('token');
+                const logininfo = await fetch ('/auth/adminlog', {
+                    method: 'POST' ,
+                    headers: {'Content-Type': 'application/json' },
+                    body: JSON.stringify({username: username, password:password})
+                })
+                const logindata = await logininfo.json();
+                if (logininfo.ok) {
+                    localStorage.setItem('token', logindata.token);
+                    console.log(`Succesfull login, ${logindata}`)
+                    window.location.href='./adminpage.html'
                 }else {
                     alert('Login failed!' + logindata.statusText);
                 }  

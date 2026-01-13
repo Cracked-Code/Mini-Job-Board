@@ -12,14 +12,19 @@
 </head>
 <body>
     <h1>ADMIN VIEW</h1>
-    <main>
+    <main class="adminmain">
        <a href="./index.html"><i class="fa-solid fa-house"></i></a>
-        <div>
+        <div class="admindiv1">
             <button onclick="deleteall()">Delete All Users</button>
         </div>
-        <div>
-            <a style="text-decoration: none;" href="http://localhost:1235/debug/users">Debug Users</a>
+        <div class="admindiv2">
+            <a style="text-decoration: none;" href="http://localhost:1235/debug/users">
+                <button>
+                    Debug Users
+                </button>
+            </a>
         </div>
+        <img class="adminimgclass" src="./funnymeme.jpg"></img>
     </main>
     <script>
         async function deleteall() {

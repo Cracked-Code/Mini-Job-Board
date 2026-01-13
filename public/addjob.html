@@ -154,6 +154,7 @@
                     console.log("Edited Job!")
                     
                     loadJobs()
+                    showeditJob()
                 } else {console.log('Error :()')}
             }
 
@@ -167,6 +168,7 @@
                 if (deletethejob.ok) {
                     console.log("Succeful deleted job")
                     loadJobs()
+                    showeditJob()
                 } else {
                     console.log("Uh oh, couldnt delete job")
                 }

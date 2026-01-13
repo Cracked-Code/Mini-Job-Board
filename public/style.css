@@ -107,3 +107,26 @@ table, th, td{
     justify-content: center;
     align-items: center;
 }
+
+/* Below is for admin Page */
+.adminmain  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:1rem;
+}
+.admindiv1, .admindiv2 {
+    padding: 1rem;    
+
+}
+.admindiv1 button,
+.admindiv2 button {
+    padding: 0.3rem .3rem;
+    background-color: transparent;
+    border-radius: 0.9rem;
+}
+.adminimgclass {
+    max-width: 200px;
+    max-height: fit-content;
+}
